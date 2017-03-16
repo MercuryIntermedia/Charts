@@ -145,6 +145,11 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDat
 
     /// the color drawing borders around the bars.
     open var barBorderColor = NSUIColor.black
+    
+    /// The object that is used for filling the area below the line.
+    /// **default**: nil
+    open var fill: Fill?
+    
 
     #if !os(OSX)
     /// the option rounding bar corners

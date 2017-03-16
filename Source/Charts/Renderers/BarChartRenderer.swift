@@ -206,6 +206,25 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     
     fileprivate var _barShadowRectBuffer: CGRect = CGRect()
     
+    
+    /// Draws the provided path in filled mode with the provided drawable.
+    open func drawFilledPath(context: CGContext, path: CGPath, fill: Fill, fillAlpha: CGFloat)
+    {
+        guard let viewPortHandler = self.viewPortHandler
+            else { return }
+        
+        context.saveGState()
+        context.beginPath()
+        context.addPath(path)
+        
+        // filled is usually drawn with less alpha
+        context.setAlpha(fillAlpha)
+        
+        fill.fillPath(context: context, rect: viewPortHandler.contentRect)
+        
+        context.restoreGState()
+    }
+    
     open func drawDataSet(context: CGContext, dataSet: IBarChartDataSet, index: Int)
     {
         guard
@@ -326,6 +345,13 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                     let bezierPath = UIBezierPath(roundedRect: barRect, byRoundingCorners: dataSet.barRoundingCorners, cornerRadii: cornerRadius)
                     context.addPath(bezierPath.cgPath)
                 #endif
+                
+                
+                if dataSet.fill != nil
+                {
+                    drawFilledPath(context: context, path: bezierPath.cgPath, fill: dataSet.fill!, fillAlpha: 1.0)
+                }
+                
                 context.fillPath()
                 
                 if drawBorder

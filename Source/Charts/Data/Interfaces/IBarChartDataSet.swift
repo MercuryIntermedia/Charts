@@ -33,6 +33,10 @@ public protocol IBarChartDataSet: IBarLineScatterCandleBubbleChartDataSet
 
     /// the color drawing borders around the bars.
     var barBorderColor: NSUIColor { get set }
+    
+    /// - returns: The object that is used for filling the area below the line.
+    /// **default**: nil
+    var fill: Fill? { get set }
 
     #if !os(OSX)
     /// the option rounding bar corners
